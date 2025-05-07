@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/header.ejs')%>
+
+    <body>
+        <%- include('./partials/navBar.ejs')%>
+            <form>
+                <label for="PetName" class="form-label">Pet's Name </label>
+                <input type="text" class="form-control" name="PetName" id="PetName" placeholder="Pet's Name " required>
+                <br>
+                <label for="Gender" class="form-label">Gender </label>
+                <select name="Gender" id="Gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                <br>
+                <label for="Type" class="form-label">Type </label>
+                <select name="Type" id="Type">
+                    <option value="Cat">Cat</option>
+                    <option value="Dog">Dog</option>
+                    <option value="Reptile">Reptile</option>
+                    <option value="Rodent">Rodent</option>
+                </select>
+                <br>
+                <label for="PetAge" class="form-label">Pet's Age </label>
+                <input type="text" class="form-control" name="PetAge" id="PetAge" placeholder="Pet's Age" required>
+                <br>
+                <label for="createdBy" class="form-label">Created By </label>
+                <input type="text" id="createdBy" value="<%= user.username %>" readonly>
+                <input type="hidden" id="userId" value="<%= user.id %>">
+                <br>
+                <label for="image" class="form-label">Image Http link </label>
+                <input type="text" class="form-control" name="image" id="image" placeholder="https://www.example.com/Picture.jpg" required>
+                <br>
+                <label for="description" class="form-label">Description </label>
+                <textarea type="text" class="form-control" name="description" id="description"
+                    placeholder="Description" required></textarea>
+                <br>
+                <button type="submit" class="button">Create Post</button>
+
+            </form>
+            <script>
+                const form = document.querySelector('form');
+
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const name = form.PetName.value;
+                    const gender = form.Gender.value;
+                    const type = form.Type.value;
+                    const age = form.PetAge.value;
+                    const createdByUsername = form.createdBy.value;
+                    const createdById = form.userId.value;
+                    const imageLink = form.image.value;
+                    const description = form.description.value;
+
+                    try {
+                        const res = await fetch('/createpost', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ name, gender, type, age, createdByUsername, createdById, imageLink, description})
+                        });
+
+                        const data = await res.json();
+                        console.log(data);
+                        if (data.errors) {
+                            console.log(data.errors.username);
+                            console.log(data.errors.password);
+                        }
+                        if (data.name) {
+                            location.assign('/overview');
+                        }
+                    } catch (err) {
+                        console.log(err);
+                    }
+
+                });
+            </script>
+    </body>
+
+</html>

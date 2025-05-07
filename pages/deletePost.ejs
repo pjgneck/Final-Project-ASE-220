@@ -1,0 +1,51 @@
+<%- include('./partials/header.ejs')%>
+
+    <body>
+        <%- include('./partials/navBar') %>
+
+            <div>
+                <h2>Delete Confirmation</h2>
+                <br>
+                <form>
+
+
+                    <div class="form-check mb-3">
+                        <label class="form-check-label" for="agreeCheckbox">
+                            I understand that this action cannot be undone.
+                        </label>
+                        <input class="form-check-input" type="checkbox" id="agreeCheckbox" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <br>
+                    <a href="/myposts" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+
+            <script>
+                const form = document.querySelector('form');
+                const petId = "<%= pet.id %>";
+
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const agreed = document.getElementById('agreeCheckbox').checked;
+
+                    try {
+                        const res = await fetch(`/post/${petId}/delete`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ })
+                            
+                        });
+                        location.assign('/posts/<%= user.id %>')
+
+                    } catch (err) {
+                        console.error(err);
+                    }
+                });
+            </script>
+    </body>
+</html>

@@ -1,0 +1,53 @@
+
+<html lang="en">
+    <%- include('./partials/header.ejs')%>
+    
+    <body>
+        <%- include('./partials/navBar.ejs')%>
+        <ul class="posts">
+            <%pets.forEach(pet => {%>
+                <li class="post">
+                    <img src="<%= pet.imageLink %>" alt="">
+                    <h4><%= pet.name %></h4>
+                    <p>Type: <%= pet.type %></p>
+                    <p>Age: <%= pet.age %></p>
+                    <p>Gender: <%= pet.gender %></p>
+                    <p>Created By: <%= pet.createdByUsername %></p>
+                    <br>
+                    <p>Description:</p>    
+                    
+                    <p><%= pet.description %></p>    
+                    
+                    <br>
+                    <div class="comments">
+                        <h3>Comments:</h3>
+                        <div class="comment-section">
+                            <% if(pet.comments.length != 0){%>
+                                <% pet.comments.forEach(comment => { %>
+                                <div class="comment">
+                                    <strong><%= comment.author %>:</strong> <%= comment.text %>
+                                </div>
+                                <% }) %>
+                            <%}else{%>
+                                <div class="comment">
+                                    <p>Be The first to comment</p>
+                                </div>
+                            <%}%>
+                        </div>
+                        <% if (user.id != pet.createdById) { %>
+                        <form action="/post/<%= pet._id %>/comments" method="POST">
+                            <textarea name="text" placeholder="Write a comment..." required></textarea>
+                            <input type="hidden" name="userId" value="<%= user.id %>" readonly>
+                            <button type="submit">Post</button>
+                        </form>
+                        <% } %>
+                    </div>
+                    
+                    
+                </li>
+                
+                <%});%>
+        </ul>
+    </body>
+</html>
+

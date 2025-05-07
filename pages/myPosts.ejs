@@ -1,0 +1,29 @@
+<html lang="en">
+    <%- include('./partials/header.ejs')%>
+    <body>
+    <%- include('./partials/navBar.ejs')%>
+        <h2><%= user.username %> Post's</h2>
+        <ul class="posts">
+            <%pets.forEach(pet => {%>
+            <li class="post">
+                <img src="<%= pet.imageLink %>" alt="">
+                <h4><%= pet.name %></h4>
+                <p>Type: <%= pet.type %></p>
+                <p>Age: <%= pet.age %></p>
+                <p>Gender: <%= pet.gender %></p>
+                <p>Created By: <%= pet.createdByUsername %></p>
+                <p><%= pet.description %></p>    
+                <br>
+                <br>
+                <% if (user.id == pet.createdById) { %>
+                    <div>
+                    <a id="removeButton" href="/post/<%=pet._id%>/delete">Delete</a>
+                    <a id="editButton" href="/post/<%=pet._id%>/edit">Edit</a>
+                    </div>
+                <% } %>    
+            </li>
+            
+        <%});%>
+        </ul>
+    </body>
+</html>

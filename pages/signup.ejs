@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/header.ejs')%>
+    
+    <body id="mainBody">       
+        <%- include('./partials/navBar.ejs')%>
+        <h2 class="text-center">Join Post A Pet</h2>
+        <br>
+        <div class="loginSignUpContent">
+            
+            <form>
+              <div>
+                <label for="username" class="form-label">Please Provide a  Username </label>
+                <input type="username" class="form-control" name="username" placeholder="Username" required>
+                <div class="usernameError"></div>
+                <br>
+                <label for="password" class="form-label">Please Provide a Password </label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="Enter password" required>
+                <div class="passwordError"></div>
+                </div>
+            <br>
+              <button type="submit" class="button">Sign Up</button>
+
+            </form>
+
+        </div>
+        <script>
+            const form = document.querySelector('form');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const username = form.username.value;
+                const password = form.password.value;
+
+                try{
+                    const res = await fetch('/signup', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({username, password})
+                    });
+
+                    const data = await res.json();
+                    console.log(data);
+                    if(data.user){
+                        location.assign('/');
+                    }
+                }catch(err){
+
+                }
+            });
+        </script>
+    </body>
+</html>

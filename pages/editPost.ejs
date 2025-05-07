@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/header.ejs')%>
+
+    <body>
+        <%- include('./partials/navBar.ejs')%>
+            <form>
+                <h2>Editing <%= pet.name %></h2>
+                <label for="PetName" class="form-label">Pet's Name </label>
+                <input type="text" class="form-control" name="PetName" id="PetName" value="<%= pet.name %>" required>
+                <br>
+                <label for="Gender" class="form-label">Gender </label>
+                <select name="Gender" id="Gender" value="<%= pet.gender %>">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                <br>
+                <label for="Type" class="form-label" >Type </label>
+                <select name="Type" id="Type" value="<%= pet.type %>">
+                    <option value="Cat">Cat</option>
+                    <option value="Dog">Dog</option>
+                    <option value="Reptile">Reptile</option>
+                    <option value="Rodent">Rodent</option>
+                </select>
+                <br>
+                <label for="PetAge" class="form-label">Pet's Age </label>
+                <input type="text" class="form-control" name="PetAge" value="<%= pet.age %>" required>
+                <br>
+                <label for="image" class="form-label">Image Http link </label>
+                <input type="text" class="form-control" name="image" id="image" value="<%= pet.imageLink %>" required>
+                <br>
+                <label for="description" class="form-label">Description </label>
+                <textarea type="text" class="form-control" name="description" id="description" required><%= pet.description %></textarea>
+                <br>
+                <button type="submit" class="button">Create Post</button>
+
+            </form>
+            <script>
+                const form = document.querySelector('form');
+
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const name = form.PetName.value;
+                    const gender = form.Gender.value;
+                    const type = form.Type.value;
+                    const age = form.PetAge.value;
+                    const imageLink = form.image.value;
+                    const description = form.description.value;
+
+                    try {
+                        const res = await fetch('/post/<%= pet._id %>/edit', {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ name, gender, type, age, imageLink, description})
+                        });
+
+                        const data = await res.json();
+                        console.log(data);
+                        
+                        location.assign('/posts/<%= user.id %>')
+                        
+                    } catch (err) {
+                        console.log(err);
+                    }
+                    
+                });
+            </script>
+    </body>
+
+</html>

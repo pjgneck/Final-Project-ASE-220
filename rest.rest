@@ -1,0 +1,37 @@
+### Get Posts
+GET http://127.0.0.1:3000/api/posts
+
+### Get Posts by ID
+GET http://127.0.0.1:3000/api/post/6817b9393a99585d935a60d1
+
+### Create a Post
+Post http://127.0.0.1:3000/api/post
+Content-Type: application/json
+
+{
+    "name" : "scruff",
+    "gender" : "Male",
+    "age" : "6",
+    "description" : "the cutest dog ever"
+}
+
+
+
+
+
+
+### Get Users
+GET http://127.0.0.1:3000/api/user
+
+### Get Users by ID
+GET http://127.0.0.1:3000/api/user/6818502e8b11469ae9a61ab0
+
+### Create a USer
+Post http://127.0.0.1:3000/api/user
+Content-Type: application/json
+
+{
+    "username" : "groneckp1",
+    "password": "123456"
+}
+
